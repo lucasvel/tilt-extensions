@@ -17,7 +17,7 @@ links="$(tilt get uiresource -o jsonpath='{range .status.endpointLinks[*]}{.url}
 for link in $links;
 do
     host="localhost"
-    port="$(echo "$link" | sed -e "s|^http://$host:\([0-9]*\).*|\1|")"
+    port="$(echo "$link" | sed -e "s|^https\?://$host:\([0-9]*\).*|\1|")"
     if [[ "$port" != "$link" ]]; then
         ports+=("$port")
         disabled="false"
