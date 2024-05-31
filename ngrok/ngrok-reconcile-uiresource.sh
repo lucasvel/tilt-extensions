@@ -13,13 +13,16 @@ echo "reconciling $name"
 
 disabled="true"
 ports=()
+schemes=()
 links="$(tilt get uiresource -o jsonpath='{range .status.endpointLinks[*]}{.url}{"\n"}{end}' -- "$name")"
 for link in $links;
 do
     host="localhost"
     port="$(echo "$link" | sed -e "s|^https\?://$host:\([0-9]*\).*|\1|")"
+    scheme="$(echo "$link" | sed -e "s|^\(https\?\)://localhost:[0-9]*.*|\1|")"
     if [[ "$port" != "$link" ]]; then
         ports+=("$port")
+        schemes+=("$scheme")
         disabled="false"
     fi
 done
@@ -86,6 +89,7 @@ metadata:
     tilt.dev/managed-by: tilt-extensions.ngrok
 data:
   ports: "${ports[@]}"
+  schemes: "${schemes[@]}"
   resource: "$name"
   enabled: "$cm_enabled"
 EOF
