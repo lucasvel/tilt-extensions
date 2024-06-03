@@ -9,6 +9,7 @@ auth = cfg.get('auth', '')
 default_config_file = cfg.get('default_config_file', '')
 ngrok_config_version = cfg.get('ngrok_config_version', '2')
 config_file = str(local('mktemp "${TMPDIR:-/tmp/}tilt-ngrok.XXXXXXXXX"')).strip()
+local('echo "$CONTENTS" > {}'.format(config_file), env={'CONTENTS': str('version: "2"')}, echo_off=True, quiet=True)
 ngrok_config_tls_scheme = cfg.get('ngrok_config_tls_scheme', 'http')
 
 local_resource(
