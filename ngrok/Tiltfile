@@ -8,7 +8,7 @@ cfg = config.parse()
 auth = cfg.get('auth', '')
 default_config_file = cfg.get('default_config_file', '')
 ngrok_config_version = cfg.get('ngrok_config_version', '2')
-config_file = str(local('mktemp "${TMPDIR:-/tmp}/tilt-ngrok.XXXXXXXXX"')).strip()
+config_file = str(local('mktemp "${TMPDIR:-/tmp/}tilt-ngrok.XXXXXXXXX"')).strip()
 ngrok_config_tls_scheme = cfg.get('ngrok_config_tls_scheme', 'http')
 
 local_resource(
